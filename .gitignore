@@ -1,0 +1,11 @@
+# Logs
+*.log
+app.log
+
+# Temporary / Scratch
+test_battery.png
+convert.ps1
+scratch/
+.vs/
+bin/
+obj/
