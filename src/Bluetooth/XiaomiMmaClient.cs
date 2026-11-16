@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using Microsoft.Win32;
+using MiBudsApp.Common;
 
 namespace MiBudsApp.Bluetooth
 {
@@ -62,6 +63,57 @@ namespace MiBudsApp.Bluetooth
         private static extern int ioctlsocket(IntPtr s, int cmd, ref uint argp);
         [DllImport("ws2_32.dll", SetLastError = true)]
         private static extern int WSAStartup(ushort wVersionRequested, IntPtr lpWSAData);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SYSTEMTIME
+        {
+            public ushort wYear, wMonth, wDayOfWeek, wDay, wHour, wMinute, wSecond, wMilliseconds;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct BLUETOOTH_DEVICE_INFO
+        {
+            public int dwSize;
+            public ulong Address;
+            public uint ulClassofDevice;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fConnected;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fRemembered;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fAuthenticated;
+            public SYSTEMTIME stLastSeen;
+            public SYSTEMTIME stLastUsed;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 248)]
+            public string szName;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct BLUETOOTH_DEVICE_SEARCH_PARAMS
+        {
+            public int dwSize;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fReturnAuthenticated;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fReturnRemembered;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fReturnUnknown;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fReturnConnected;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fIssueInquiry;
+            public byte cTimeoutMultiplier;
+            public IntPtr hRadio;
+        }
+
+        [DllImport("bthprops.cpl", SetLastError = true)]
+        private static extern IntPtr BluetoothFindFirstDevice(ref BLUETOOTH_DEVICE_SEARCH_PARAMS searchParams, ref BLUETOOTH_DEVICE_INFO deviceInfo);
+
+        [DllImport("bthprops.cpl", SetLastError = true)]
+        private static extern bool BluetoothFindNextDevice(IntPtr hFind, ref BLUETOOTH_DEVICE_INFO deviceInfo);
+
+        [DllImport("bthprops.cpl", SetLastError = true)]
+        private static extern bool BluetoothFindDeviceClose(IntPtr hFind);
 
         private static readonly Guid FASTPAIR_UUID = new Guid("DF21FE2C-2515-4FDB-8886-F12C4D67927C");
         private static readonly Guid XIAOAI_UUID = new Guid("0000FD2D-0000-1000-8000-00805F9B34FB");
@@ -148,11 +200,13 @@ namespace MiBudsApp.Bluetooth
             Battery = new BatteryState();
             CurrentMode = NoiseMode.Off;
             IsConnected = false;
-            DeviceName = "Redmi Buds 5 Pro";
-            DeviceAddress = 0x4873CBFDA87D;
+            DeviceName = Localization.DeviceTitlePlaceholder;
+            DeviceAddress = 0;
 
             IntPtr pWSA = Marshal.AllocHGlobal(1024);
             WSAStartup(0x0202, pWSA);
+
+            DetectDeviceAddress();
         }
 
         public void Start()
@@ -189,11 +243,87 @@ namespace MiBudsApp.Bluetooth
             }
         }
 
+        private static bool IsSupportedXiaomiDevice(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return false;
+            return name.IndexOf("Redmi Buds", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   name.IndexOf("Xiaomi", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   name.IndexOf("POCO", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   name.IndexOf("Mi True Wireless", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   name.IndexOf("Mi Buds", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
         private void DetectDeviceAddress()
         {
             try
             {
-                // 1. Prioridade: dispositivos PnP ativos em Enum\BTHENUM
+                // 1. Prioridade Máxima: Windows Bluetooth API (bthprops.cpl) para encontrar o dispositivo EFETIVAMENTE CONECTADO
+                try
+                {
+                    var sp = new BLUETOOTH_DEVICE_SEARCH_PARAMS
+                    {
+                        dwSize = Marshal.SizeOf(typeof(BLUETOOTH_DEVICE_SEARCH_PARAMS)),
+                        fReturnAuthenticated = true,
+                        fReturnRemembered = true,
+                        fReturnConnected = true,
+                        fIssueInquiry = false,
+                        cTimeoutMultiplier = 1
+                    };
+
+                    var di = new BLUETOOTH_DEVICE_INFO
+                    {
+                        dwSize = Marshal.SizeOf(typeof(BLUETOOTH_DEVICE_INFO))
+                    };
+
+                    IntPtr hFind = BluetoothFindFirstDevice(ref sp, ref di);
+                    if (hFind != IntPtr.Zero)
+                    {
+                        ulong firstRememberedMac = 0;
+                        string firstRememberedName = null;
+
+                        try
+                        {
+                            do
+                            {
+                                if (IsSupportedXiaomiDevice(di.szName))
+                                {
+                                    if (di.fConnected)
+                                    {
+                                        // Dispositivo ativamente conectado encontrado!
+                                        DeviceAddress = di.Address;
+                                        DeviceName = di.szName;
+                                        AppLog.Log(string.Format("DetectDeviceAddress: active connected device found: {0} (0x{1:X12})", DeviceName, DeviceAddress));
+                                        return;
+                                    }
+                                    else if (firstRememberedMac == 0)
+                                    {
+                                        firstRememberedMac = di.Address;
+                                        firstRememberedName = di.szName;
+                                    }
+                                }
+                            } while (BluetoothFindNextDevice(hFind, ref di));
+                        }
+                        finally
+                        {
+                            BluetoothFindDeviceClose(hFind);
+                        }
+
+                        // Se nenhum está marcado como conectado no momento, usar o primeiro memorizado como fallback
+                        if (firstRememberedMac != 0)
+                        {
+                            DeviceAddress = firstRememberedMac;
+                            DeviceName = firstRememberedName;
+                            AppLog.Log(string.Format("DetectDeviceAddress: using remembered device fallback: {0} (0x{1:X12})", DeviceName, DeviceAddress));
+                            return;
+                        }
+                    }
+                }
+                catch (Exception exBth)
+                {
+                    AppLog.Log("DetectDeviceAddress bthprops exception: " + exBth.Message);
+                }
+
+                // 2. Fallback de Registro (caso bthprops falhe): Enum\BTHENUM
                 using (var root = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Enum\BTHENUM"))
                 {
                     if (root != null)
@@ -214,15 +344,14 @@ namespace MiBudsApp.Bluetooth
                                                 if (childKey != null)
                                                 {
                                                     string nameStr = childKey.GetValue("FriendlyName") as string;
-                                                    if (!string.IsNullOrEmpty(nameStr) &&
-                                                        (nameStr.IndexOf("Redmi Buds", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                                         nameStr.IndexOf("Xiaomi", StringComparison.OrdinalIgnoreCase) >= 0))
+                                                    if (IsSupportedXiaomiDevice(nameStr))
                                                     {
                                                         ulong parsedMac;
                                                         if (ulong.TryParse(hexMac, System.Globalization.NumberStyles.HexNumber, null, out parsedMac))
                                                         {
                                                             DeviceAddress = parsedMac;
                                                             DeviceName = nameStr;
+                                                            AppLog.Log(string.Format("DetectDeviceAddress: BTHENUM fallback device: {0} (0x{1:X12})", DeviceName, DeviceAddress));
                                                             return;
                                                         }
                                                     }
@@ -236,7 +365,7 @@ namespace MiBudsApp.Bluetooth
                     }
                 }
 
-                // 2. Fallback: BTHPORT\Parameters\Devices
+                // 3. Fallback de Registro Secundário: BTHPORT\Parameters\Devices
                 using (var root = Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\BTHPORT\Parameters\Devices"))
                 {
                     if (root != null)
@@ -256,24 +385,19 @@ namespace MiBudsApp.Bluetooth
                                         while (len < bytes.Length && bytes[len] != 0) len++;
                                         devName = Encoding.UTF8.GetString(bytes, 0, len);
                                     }
-                                    else
+                                    else if (nameVal is string)
                                     {
-                                        string str = nameVal as string;
-                                        if (str != null)
-                                        {
-                                            devName = str;
-                                        }
+                                        devName = (string)nameVal;
                                     }
 
-                                    if (!string.IsNullOrEmpty(devName) &&
-                                        (devName.IndexOf("Redmi Buds", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                                         devName.IndexOf("Xiaomi", StringComparison.OrdinalIgnoreCase) >= 0))
+                                    if (IsSupportedXiaomiDevice(devName))
                                     {
                                         ulong parsedMac;
                                         if (ulong.TryParse(subKeyName, System.Globalization.NumberStyles.HexNumber, null, out parsedMac))
                                         {
                                             DeviceAddress = parsedMac;
                                             DeviceName = devName;
+                                            AppLog.Log(string.Format("DetectDeviceAddress: BTHPORT fallback device: {0} (0x{1:X12})", DeviceName, DeviceAddress));
                                             return;
                                         }
                                     }
@@ -283,7 +407,10 @@ namespace MiBudsApp.Bluetooth
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                AppLog.Log("DetectDeviceAddress error: " + ex.Message);
+            }
         }
 
         private void WorkerLoop()
