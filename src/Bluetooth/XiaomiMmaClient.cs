@@ -250,7 +250,9 @@ namespace MiBudsApp.Bluetooth
                    name.IndexOf("Xiaomi", StringComparison.OrdinalIgnoreCase) >= 0 ||
                    name.IndexOf("POCO", StringComparison.OrdinalIgnoreCase) >= 0 ||
                    name.IndexOf("Mi True Wireless", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                   name.IndexOf("Mi Buds", StringComparison.OrdinalIgnoreCase) >= 0;
+                   name.IndexOf("Mi Buds", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   name.IndexOf("AirDots", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   name.IndexOf("FlipBuds", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private void DetectDeviceAddress()

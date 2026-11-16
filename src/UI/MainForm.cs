@@ -115,7 +115,6 @@ namespace MiBudsApp.UI
             {
                 CreateParams cp = base.CreateParams;
                 cp.ClassStyle |= 0x20000; // CS_DROPSHADOW
-                cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED (evita flicker na hierarquia de controlos durante o resize)
                 return cp;
             }
         }
@@ -566,18 +565,32 @@ namespace MiBudsApp.UI
             base.OnShown(e);
             UpdateFormRegion();
             LayoutHeaderButtons();
+            if (pnlNoiseCard != null) LayoutNoiseButtons();
+            if (pnlFooter != null) LayoutFooter();
             if (client != null && client.Battery != null && client.Battery.HasData)
             {
                 heroView.UpdateBattery(client.Battery);
             }
+            this.Invalidate(true);
+            this.Update();
         }
 
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
-            if (this.Visible && client != null && client.Battery != null && client.Battery.HasData)
+            if (this.Visible)
             {
-                heroView.UpdateBattery(client.Battery);
+                UpdateFormRegion();
+                LayoutHeaderButtons();
+                if (pnlNoiseCard != null) LayoutNoiseButtons();
+                if (pnlFooter != null) LayoutFooter();
+
+                if (client != null && client.Battery != null && client.Battery.HasData)
+                {
+                    heroView.UpdateBattery(client.Battery);
+                }
+                this.Invalidate(true);
+                this.Update();
             }
         }
 
@@ -876,6 +889,8 @@ namespace MiBudsApp.UI
                 this.BringToFront();
                 this.Activate();
                 this.TopMost = false;
+                this.Invalidate(true);
+                this.Update();
                 return;
             }
 
@@ -1050,11 +1065,12 @@ namespace MiBudsApp.UI
         {
             BorderColor = Color.Transparent;
             CornerRadius = 12;
+            this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.AllPaintingInWmPaint |
                           ControlStyles.UserPaint |
                           ControlStyles.OptimizedDoubleBuffer |
-                          ControlStyles.SupportsTransparentBackColor |
                           ControlStyles.ResizeRedraw, true);
+            this.UpdateStyles();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -1070,13 +1086,16 @@ namespace MiBudsApp.UI
             }
 
             Rectangle rect = new Rectangle(0, 0, Width - 1, Height - 1);
-            using (var brush = new SolidBrush(BackColor))
-            using (var pen = new Pen(BorderColor, 1f))
+            if (rect.Width > 0 && rect.Height > 0)
             {
-                g.FillRoundedRectangle(brush, rect.X, rect.Y, rect.Width, rect.Height, CornerRadius);
-                if (BorderColor != Color.Transparent)
+                using (var brush = new SolidBrush(BackColor))
+                using (var pen = new Pen(BorderColor, 1f))
                 {
-                    g.DrawRoundedRectangle(pen, rect.X, rect.Y, rect.Width, rect.Height, CornerRadius);
+                    GraphicsExtensions.FillRoundedRectangle(g, brush, rect.X, rect.Y, rect.Width, rect.Height, CornerRadius);
+                    if (BorderColor != Color.Transparent)
+                    {
+                        GraphicsExtensions.DrawRoundedRectangle(g, pen, rect.X, rect.Y, rect.Width, rect.Height, CornerRadius);
+                    }
                 }
             }
         }

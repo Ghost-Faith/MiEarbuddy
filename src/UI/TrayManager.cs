@@ -609,6 +609,8 @@ namespace MiBudsApp.UI
             mainForm.BringToFront();
             mainForm.Activate();
             mainForm.TopMost = false;
+            mainForm.Invalidate(true);
+            mainForm.Update();
         }
 
         public void ToggleWindow()
@@ -1053,26 +1055,37 @@ namespace MiBudsApp.UI
 
         public static GraphicsPath RoundedRect(Rectangle bounds, int radius)
         {
-            int diameter = radius * 2;
-            Size size = new Size(diameter, diameter);
-            Rectangle arc = new Rectangle(bounds.Location, size);
-            GraphicsPath path = new GraphicsPath();
-
-            if (radius == 0)
+            if (bounds.Width <= 0 || bounds.Height <= 0)
             {
+                GraphicsPath p = new GraphicsPath();
+                p.AddRectangle(bounds);
+                return p;
+            }
+
+            int diameter = radius * 2;
+            if (diameter > bounds.Width) diameter = bounds.Width;
+            if (diameter > bounds.Height) diameter = bounds.Height;
+
+            if (diameter <= 0 || radius <= 0)
+            {
+                GraphicsPath path = new GraphicsPath();
                 path.AddRectangle(bounds);
                 return path;
             }
 
-            path.AddArc(arc, 180, 90);
+            Size size = new Size(diameter, diameter);
+            Rectangle arc = new Rectangle(bounds.Location, size);
+            GraphicsPath gPath = new GraphicsPath();
+
+            gPath.AddArc(arc, 180, 90);
             arc.X = bounds.Right - diameter;
-            path.AddArc(arc, 270, 90);
+            gPath.AddArc(arc, 270, 90);
             arc.Y = bounds.Bottom - diameter;
-            path.AddArc(arc, 0, 90);
+            gPath.AddArc(arc, 0, 90);
             arc.X = bounds.Left;
-            path.AddArc(arc, 90, 90);
-            path.CloseFigure();
-            return path;
+            gPath.AddArc(arc, 90, 90);
+            gPath.CloseFigure();
+            return gPath;
         }
     }
 }
