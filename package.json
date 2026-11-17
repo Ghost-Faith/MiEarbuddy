@@ -4,6 +4,7 @@
   "private": true,
   "description": "Official presentation website for MiEarbuddy - Windows companion for Xiaomi and Redmi earbuds",
   "scripts": {
+    "start": "node serve.js",
     "dev": "vite docs",
     "build": "vite build docs --outDir dist",
     "preview": "vite preview docs"
