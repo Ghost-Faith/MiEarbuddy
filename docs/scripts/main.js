@@ -71,10 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (heroWrap) {
     heroWrap.addEventListener('click', () => {
-      heroWrap.classList.remove('replay-anim');
-      // Trigger reflow to restart CSS animation
+      heroWrap.classList.remove('is-replaying');
       void heroWrap.offsetWidth;
-      heroWrap.classList.add('replay-anim');
+      heroWrap.classList.add('is-replaying');
     });
   }
 

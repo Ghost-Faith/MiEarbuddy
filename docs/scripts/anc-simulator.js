@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (captionLead && captionBody) {
       if (mode === 'anc') {
         captionLead.textContent = window.i18n ? (window.i18n.getTranslation('ancMode1Title') + ':') : 'Active Noise Cancellation:';
-        captionBody.textContent = window.i18n ? window.i18n.getTranslation('ancVisualizerStatus1') : 'Anti-phase acoustic frequencies actively neutralizing external background hum (-52 dB).';
+        captionBody.textContent = window.i18n ? window.i18n.getTranslation('ancVisualizerStatus1') : 'Anti-phase acoustic frequencies actively neutralizing external background hum.';
       } else if (mode === 'transparency') {
         captionLead.textContent = window.i18n ? (window.i18n.getTranslation('ancMode2Title') + ':') : 'Transparency Mode:';
         captionBody.textContent = window.i18n ? window.i18n.getTranslation('ancVisualizerStatus2') : 'Environmental frequencies passing through wideband acoustic microphones with natural clarity.';

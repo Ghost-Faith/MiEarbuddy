@@ -170,45 +170,68 @@
    Inspired directly by the Apple AirPods Pro official presentation
    -------------------------------------------------------------------------- */
 .hero-apple-stage {
-  padding-top: 40px;
+  padding-top: 110px;
   padding-bottom: 90px;
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 35%, rgba(20, 20, 32, 0.75) 0%, rgba(0, 0, 0, 1) 75%);
+  background: radial-gradient(circle at 50% 45%, rgba(20, 20, 32, 0.75) 0%, rgba(0, 0, 0, 1) 75%);
 }
 
 .hero-monumental-wrap {
   position: relative;
   max-width: 1100px;
   margin: 0 auto;
+  min-height: 520px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   user-select: none;
 }
 
-/* Floating Earbuds Stage */
-.hero-case-stage {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 250px;
-  z-index: 2;
-  margin-bottom: -36px; /* Elegant visual anchor with typography */
-}
-
 @media (max-width: 600px) {
-  .hero-case-stage {
-    min-height: 190px;
-    margin-bottom: -24px;
+  .hero-apple-stage {
+    padding-top: 70px;
+    padding-bottom: 60px;
+  }
+  .hero-monumental-wrap {
+    min-height: 360px;
   }
 }
 
-/* Ambient blue backlight behind the charging case */
+/* The giant background title letters */
+.hero-giant-title {
+  font-size: clamp(2.5rem, 11.5vw, 9.25rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: #ffffff;
+  line-height: 0.95;
+  user-select: none;
+  z-index: 1;
+  text-shadow: 0 0 50px rgba(255, 255, 255, 0.4), 0 10px 40px rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  animation: heroTitleIlluminate 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: text-shadow 0.6s ease, letter-spacing 0.6s ease;
+}
+
+/* Charging Case wrapper placed initially in front of the name */
+.hero-product-image-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(210px, 36vw, 370px);
+  max-width: 90%;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+  animation: heroCaseReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+             heroHoverFloat 6s ease-in-out 1.6s infinite;
+  will-change: transform, filter;
+}
+
+/* Ambient blue aura behind the case */
 .hero-ambient-aura {
   position: absolute;
   top: 50%;
@@ -217,111 +240,129 @@
   width: 320px;
   height: 220px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 113, 227, 0.3) 0%, rgba(0, 113, 227, 0) 70%);
-  filter: blur(40px);
+  background: radial-gradient(circle, rgba(0, 113, 227, 0.35) 0%, rgba(0, 113, 227, 0) 70%);
+  filter: blur(45px);
   pointer-events: none;
   z-index: 1;
 }
 
-/* The open charging case & earbuds */
+/* The open charging case image */
 .hero-product-image {
+  width: 100%;
+  height: auto;
+  display: block;
   position: relative;
   z-index: 2;
-  width: clamp(210px, 34vw, 360px);
-  max-width: 90%;
-  height: auto;
   filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 15px 35px rgba(0, 113, 227, 0.25));
-  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s ease;
-  animation: heroEarbudReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, heroGentleLevitate 4.5s ease-in-out 1.6s infinite alternate;
-  will-change: transform, filter;
+  transition: filter 0.8s ease;
 }
 
-/* Monumental Typography Container */
-.hero-giant-title-container {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-/* The giant background title letters: 100% UNHINDERED & VISIBLE */
-.hero-giant-title {
-  font-size: clamp(2.75rem, 12vw, 9.5rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  color: #ffffff;
-  line-height: 0.95;
-  user-select: none;
-  text-shadow: 0 0 50px rgba(255, 255, 255, 0.4), 0 10px 40px rgba(0, 0, 0, 0.85);
-  white-space: nowrap;
-  animation: heroTitleIlluminate 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  transition: text-shadow 0.6s ease, letter-spacing 0.6s ease;
-}
-
-/* Keyframes: Cinematic entry where earphones start lower in front, then gracefully elevate to reveal the full title */
-@keyframes heroEarbudReveal {
+/* Keyframes: Case starts IN FRONT of the name MiEarbuddy, then moves OUT of front of it */
+@keyframes heroCaseReveal {
   0% {
-    transform: translateY(85px) scale(1.12);
+    /* Starts directly in front of the name */
+    transform: translate(-50%, -50%) scale(1.04);
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
   }
-  20% {
-    transform: translateY(85px) scale(1.12);
+  25% {
+    /* Holds briefly so user registers the case in front */
+    transform: translate(-50%, -50%) scale(1.04);
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
   }
   100% {
-    transform: translateY(0px) scale(1.0);
-    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 15px 35px rgba(0, 113, 227, 0.25));
+    /* Moves completely out of front of it, elevating above the letters */
+    transform: translate(-50%, -125%) scale(0.88);
+    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 15px 35px rgba(0, 113, 227, 0.3));
   }
 }
 
+/* Keyframes: Hovers and moves slightly once out of front */
+@keyframes heroHoverFloat {
+  0% {
+    transform: translate(-50%, -125%) scale(0.88) rotate(0deg);
+  }
+  25% {
+    transform: translate(calc(-50% + 4px), -130%) scale(0.89) rotate(1deg);
+  }
+  50% {
+    transform: translate(-50%, -122%) scale(0.88) rotate(0deg);
+  }
+  75% {
+    transform: translate(calc(-50% - 4px), -129%) scale(0.89) rotate(-1deg);
+  }
+  100% {
+    transform: translate(-50%, -125%) scale(0.88) rotate(0deg);
+  }
+}
+
+/* Title illumination as case moves out */
 @keyframes heroTitleIlluminate {
-  0%, 20% {
-    opacity: 0.6;
-    letter-spacing: -0.06em;
+  0%, 25% {
+    opacity: 0.65;
+    letter-spacing: -0.055em;
     text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
   }
   100% {
     opacity: 1;
     letter-spacing: -0.04em;
-    text-shadow: 0 0 50px rgba(255, 255, 255, 0.45), 0 10px 40px rgba(0, 0, 0, 0.85);
-  }
-}
-
-/* Gentle continuous levitation loop once revealed */
-@keyframes heroGentleLevitate {
-  0% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(-10px);
+    text-shadow: 0 0 55px rgba(255, 255, 255, 0.45), 0 10px 40px rgba(0, 0, 0, 0.85);
   }
 }
 
 /* Replay animation on click */
-.hero-monumental-wrap.replay-anim .hero-product-image {
-  animation: heroEarbudReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, heroGentleLevitate 4.5s ease-in-out 1.4s infinite alternate !important;
+.hero-monumental-wrap.is-replaying .hero-product-image-wrap {
+  animation: heroCaseReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+             heroHoverFloat 6s ease-in-out 1.6s infinite !important;
 }
 
-.hero-monumental-wrap.replay-anim .hero-giant-title {
-  animation: heroTitleIlluminate 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+.hero-monumental-wrap.is-replaying .hero-giant-title {
+  animation: heroTitleIlluminate 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
-/* Hover: Interactive elevation & glow */
-.hero-monumental-wrap:hover .hero-product-image {
-  transform: translateY(-14px) scale(1.03);
+/* Hover: Interactive elevation */
+.hero-monumental-wrap:hover .hero-product-image-wrap {
   filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) drop-shadow(0 20px 45px rgba(0, 113, 227, 0.4));
 }
 
 .hero-monumental-wrap:hover .hero-giant-title {
-  text-shadow: 0 0 60px rgba(255, 255, 255, 0.6), 0 10px 40px rgba(0, 0, 0, 0.9);
+  text-shadow: 0 0 65px rgba(255, 255, 255, 0.6), 0 10px 40px rgba(0, 0, 0, 0.9);
   letter-spacing: -0.035em;
 }
 
+/* Responsive adjustments for mobile */
+@media (max-width: 600px) {
+  @keyframes heroCaseReveal {
+    0%, 25% {
+      transform: translate(-50%, -50%) scale(1.04);
+    }
+    100% {
+      transform: translate(-50%, -115%) scale(0.85);
+    }
+  }
+
+  @keyframes heroHoverFloat {
+    0% {
+      transform: translate(-50%, -115%) scale(0.85) rotate(0deg);
+    }
+    25% {
+      transform: translate(calc(-50% + 3px), -119%) scale(0.86) rotate(1deg);
+    }
+    50% {
+      transform: translate(-50%, -112%) scale(0.85) rotate(0deg);
+    }
+    75% {
+      transform: translate(calc(-50% - 3px), -118%) scale(0.86) rotate(-1deg);
+    }
+    100% {
+      transform: translate(-50%, -115%) scale(0.85) rotate(0deg);
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-product-image {
+  .hero-product-image-wrap {
     animation: none !important;
-    transform: translateY(0px) scale(1.0) !important;
+    transform: translate(-50%, -125%) scale(0.88) !important;
   }
   .hero-giant-title {
     animation: none !important;
