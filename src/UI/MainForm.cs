@@ -38,6 +38,10 @@ namespace MiBudsApp.UI
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HT_CAPTION = 0x2;
         private const int WM_GETMINMAXINFO = 0x0024;
+        private const int WM_NCCALCSIZE = 0x0083;
+        private const int WM_NCPAINT = 0x0085;
+        private const int WM_NCACTIVATE = 0x0086;
+        private const int WM_ERASEBKGND = 0x0014;
 
         public const int DEFAULT_WIDTH = 480;
         public const int DEFAULT_HEIGHT = 688;
@@ -115,6 +119,7 @@ namespace MiBudsApp.UI
             {
                 CreateParams cp = base.CreateParams;
                 cp.ClassStyle |= 0x20000; // CS_DROPSHADOW
+                cp.Style |= 0x00040000;   // WS_THICKFRAME: Redimensionamento nativo fluido com cantos DWM
                 return cp;
             }
         }
@@ -149,15 +154,6 @@ namespace MiBudsApp.UI
             };
             pnlHeader.MouseDown += Header_MouseDown;
             pnlHeader.Resize += (s, e) => LayoutHeaderButtons();
-            pnlHeader.Paint += (s, e) =>
-            {
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                using (var pen = new Pen(Color.FromArgb(45, 47, 56), 1f))
-                using (var path = GraphicsExtensions.RoundedRect(new Rectangle(0, 0, this.Width - 1, this.Height - 1), 16))
-                {
-                    e.Graphics.DrawPath(pen, path);
-                }
-            };
 
             lblTitle = new Label
             {
@@ -367,7 +363,6 @@ namespace MiBudsApp.UI
             this.Controls.Add(pnlFooter);
 
             LayoutHeaderButtons();
-            UpdateFormRegion();
         }
 
         private void LayoutHeaderButtons()
@@ -533,37 +528,9 @@ namespace MiBudsApp.UI
             UpdateLocalizedStrings();
         }
 
-        private int lastRegionWidth = 0;
-        private int lastRegionHeight = 0;
-
-        private void UpdateFormRegion()
-        {
-            try
-            {
-                if (this.WindowState == FormWindowState.Minimized) return;
-                if (this.Width <= 16 || this.Height <= 16) return;
-                if (this.Width == lastRegionWidth && this.Height == lastRegionHeight) return;
-
-                lastRegionWidth = this.Width;
-                lastRegionHeight = this.Height;
-
-                Region oldRegion = this.Region;
-                using (GraphicsPath path = GraphicsExtensions.RoundedRect(new Rectangle(0, 0, this.Width, this.Height), 16))
-                {
-                    this.Region = new Region(path);
-                }
-                if (oldRegion != null)
-                {
-                    try { oldRegion.Dispose(); } catch { }
-                }
-            }
-            catch { }
-        }
-
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            UpdateFormRegion();
             LayoutHeaderButtons();
             if (pnlNoiseCard != null) LayoutNoiseButtons();
             if (pnlFooter != null) LayoutFooter();
@@ -580,7 +547,6 @@ namespace MiBudsApp.UI
             base.OnVisibleChanged(e);
             if (this.Visible)
             {
-                UpdateFormRegion();
                 LayoutHeaderButtons();
                 if (pnlNoiseCard != null) LayoutNoiseButtons();
                 if (pnlFooter != null) LayoutFooter();
@@ -598,33 +564,45 @@ namespace MiBudsApp.UI
         {
             base.OnResize(e);
 
-            UpdateFormRegion();
-            LayoutHeaderButtons();
+            if (this.WindowState == FormWindowState.Minimized) return;
 
-            int cardWidth = Math.Max(200, this.ClientSize.Width - 32);
+            int w = this.ClientSize.Width;
+            int h = this.ClientSize.Height;
+            int cardWidth = Math.Max(200, w - 32);
 
-            if (heroView != null)
+            if (pnlHeader != null && pnlHeader.Width != w)
             {
-                heroView.Location = new Point(16, 90);
+                LayoutHeaderButtons();
+            }
+
+            if (heroView != null && heroView.Width != cardWidth)
+            {
                 heroView.Size = new Size(cardWidth, 216);
             }
 
-            if (pnlNoiseCard != null)
+            if (pnlNoiseCard != null && pnlNoiseCard.Width != cardWidth)
             {
-                pnlNoiseCard.Location = new Point(16, 320);
                 pnlNoiseCard.Size = new Size(cardWidth, 176);
                 LayoutNoiseButtons();
             }
 
             if (pnlFooter != null)
             {
-                pnlFooter.Location = new Point(16, 510);
-                int footerH = Math.Max(150, this.ClientSize.Height - 510 - 14);
-                pnlFooter.Size = new Size(cardWidth, footerH);
-                LayoutFooter();
+                int footerH = Math.Max(150, h - 510 - 14);
+                if (pnlFooter.Width != cardWidth || pnlFooter.Height != footerH)
+                {
+                    pnlFooter.Size = new Size(cardWidth, footerH);
+                    LayoutFooter();
+                }
             }
+        }
 
-            this.Invalidate();
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            using (var brush = new SolidBrush(colBg))
+            {
+                e.Graphics.FillRectangle(brush, e.ClipRectangle);
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -829,6 +807,32 @@ namespace MiBudsApp.UI
 
         protected override void WndProc(ref Message m)
         {
+            if (m.Msg == WM_NCCALCSIZE)
+            {
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            if (m.Msg == WM_NCACTIVATE)
+            {
+                // Impede que o DefWindowProc desenhe a barra de título clássica ao ativar/desativar pela barra de tarefas
+                m.Result = (IntPtr)1;
+                return;
+            }
+
+            if (m.Msg == WM_NCPAINT)
+            {
+                // Impede que o Windows desenhe bordas não-cliente em torno da janela
+                m.Result = IntPtr.Zero;
+                return;
+            }
+
+            if (m.Msg == WM_ERASEBKGND)
+            {
+                m.Result = (IntPtr)1;
+                return;
+            }
+
             if (m.Msg == WM_GETMINMAXINFO)
             {
                 base.WndProc(ref m);
