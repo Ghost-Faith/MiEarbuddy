@@ -170,37 +170,38 @@
    Inspired directly by the Apple AirPods Pro official presentation
    -------------------------------------------------------------------------- */
 .hero-apple-stage {
-  padding-top: 110px;
-  padding-bottom: 90px;
+  padding-top: 110px; /* Generous breathing room below sticky subnav */
+  padding-bottom: 80px;
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 45%, rgba(20, 20, 32, 0.75) 0%, rgba(0, 0, 0, 1) 75%);
+  background: radial-gradient(circle at 50% 35%, rgba(20, 20, 32, 0.75) 0%, rgba(0, 0, 0, 1) 75%);
 }
 
 .hero-monumental-wrap {
   position: relative;
   max-width: 1100px;
   margin: 0 auto;
-  min-height: 520px;
+  min-height: 380px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end; /* Places title at bottom, close to lower copy */
   cursor: pointer;
   user-select: none;
 }
 
 @media (max-width: 600px) {
   .hero-apple-stage {
-    padding-top: 70px;
-    padding-bottom: 60px;
+    padding-top: 90px;
+    padding-bottom: 50px;
   }
   .hero-monumental-wrap {
-    min-height: 360px;
+    min-height: 280px;
   }
 }
 
-/* The giant background title letters */
+/* The giant background title letters: tightly paired with lower headline */
 .hero-giant-title {
   font-size: clamp(2.5rem, 11.5vw, 9.25rem);
   font-weight: 800;
@@ -211,17 +212,17 @@
   z-index: 1;
   text-shadow: 0 0 50px rgba(255, 255, 255, 0.4), 0 10px 40px rgba(0, 0, 0, 0.85);
   white-space: nowrap;
+  margin-bottom: 0px;
   animation: heroTitleIlluminate 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   transition: text-shadow 0.6s ease, letter-spacing 0.6s ease;
 }
 
-/* Charging Case wrapper placed initially in front of the name */
+/* Charging Case wrapper */
 .hero-product-image-wrap {
   position: absolute;
-  top: 50%;
+  bottom: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: clamp(210px, 36vw, 370px);
+  width: clamp(210px, 35vw, 360px);
   max-width: 90%;
   height: auto;
   z-index: 2;
@@ -237,8 +238,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 320px;
-  height: 220px;
+  width: 300px;
+  height: 200px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(0, 113, 227, 0.35) 0%, rgba(0, 113, 227, 0) 70%);
   filter: blur(45px);
@@ -257,45 +258,42 @@
   transition: filter 0.8s ease;
 }
 
-/* Keyframes: Case starts IN FRONT of the name MiEarbuddy, then moves OUT of front of it */
+/* Keyframes: Starts centered in front of 'MiEarbuddy', then moves up and out of front of it */
 @keyframes heroCaseReveal {
   0% {
-    /* Starts directly in front of the name */
-    transform: translate(-50%, -50%) scale(1.04);
+    transform: translate(-50%, 0) translateY(85px) scale(1.04);
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
   }
   25% {
-    /* Holds briefly so user registers the case in front */
-    transform: translate(-50%, -50%) scale(1.04);
+    transform: translate(-50%, 0) translateY(85px) scale(1.04);
     filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
   }
   100% {
-    /* Moves completely out of front of it, elevating above the letters */
-    transform: translate(-50%, -112%) scale(0.88);
+    transform: translate(-50%, 0) translateY(-145px) scale(0.88);
     filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 15px 35px rgba(0, 113, 227, 0.3));
   }
 }
 
-/* Keyframes: Hovers and moves slightly once out of front */
+/* Keyframes: Organic hover levitation once elevated */
 @keyframes heroHoverFloat {
   0% {
-    transform: translate(-50%, -112%) scale(0.88) rotate(0deg);
+    transform: translate(-50%, 0) translateY(-145px) scale(0.88) rotate(0deg);
   }
   25% {
-    transform: translate(calc(-50% + 4px), -116%) scale(0.89) rotate(1deg);
+    transform: translate(calc(-50% + 4px), 0) translateY(-151px) scale(0.89) rotate(1deg);
   }
   50% {
-    transform: translate(-50%, -109%) scale(0.88) rotate(0deg);
+    transform: translate(-50%, 0) translateY(-141px) scale(0.88) rotate(0deg);
   }
   75% {
-    transform: translate(calc(-50% - 4px), -115%) scale(0.89) rotate(-1deg);
+    transform: translate(calc(-50% - 4px), 0) translateY(-150px) scale(0.89) rotate(-1deg);
   }
   100% {
-    transform: translate(-50%, -112%) scale(0.88) rotate(0deg);
+    transform: translate(-50%, 0) translateY(-145px) scale(0.88) rotate(0deg);
   }
 }
 
-/* Title illumination as case moves out */
+/* Title illumination */
 @keyframes heroTitleIlluminate {
   0%, 25% {
     opacity: 0.65;
@@ -333,28 +331,28 @@
 @media (max-width: 600px) {
   @keyframes heroCaseReveal {
     0%, 25% {
-      transform: translate(-50%, -50%) scale(1.04);
+      transform: translate(-50%, 0) translateY(55px) scale(1.04);
     }
     100% {
-      transform: translate(-50%, -115%) scale(0.85);
+      transform: translate(-50%, 0) translateY(-95px) scale(0.85);
     }
   }
 
   @keyframes heroHoverFloat {
     0% {
-      transform: translate(-50%, -115%) scale(0.85) rotate(0deg);
+      transform: translate(-50%, 0) translateY(-95px) scale(0.85) rotate(0deg);
     }
     25% {
-      transform: translate(calc(-50% + 3px), -119%) scale(0.86) rotate(1deg);
+      transform: translate(calc(-50% + 3px), 0) translateY(-99px) scale(0.86) rotate(1deg);
     }
     50% {
-      transform: translate(-50%, -112%) scale(0.85) rotate(0deg);
+      transform: translate(-50%, 0) translateY(-92px) scale(0.85) rotate(0deg);
     }
     75% {
-      transform: translate(calc(-50% - 3px), -118%) scale(0.86) rotate(-1deg);
+      transform: translate(calc(-50% - 3px), 0) translateY(-98px) scale(0.86) rotate(-1deg);
     }
     100% {
-      transform: translate(-50%, -115%) scale(0.85) rotate(0deg);
+      transform: translate(-50%, 0) translateY(-95px) scale(0.85) rotate(0deg);
     }
   }
 }
@@ -362,7 +360,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-product-image-wrap {
     animation: none !important;
-    transform: translate(-50%, -112%) scale(0.88) !important;
+    transform: translate(-50%, 0) translateY(-145px) scale(0.88) !important;
   }
   .hero-giant-title {
     animation: none !important;
@@ -372,7 +370,7 @@
 
 .hero-copy-wrap {
   max-width: 740px;
-  margin: 30px auto 0;
+  margin: 14px auto 0;
   position: relative;
   z-index: 3;
 }
