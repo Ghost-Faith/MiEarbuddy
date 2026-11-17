@@ -271,7 +271,7 @@
   }
   100% {
     /* Moves completely out of front of it, elevating above the letters */
-    transform: translate(-50%, -125%) scale(0.88);
+    transform: translate(-50%, -112%) scale(0.88);
     filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 15px 35px rgba(0, 113, 227, 0.3));
   }
 }
@@ -279,19 +279,19 @@
 /* Keyframes: Hovers and moves slightly once out of front */
 @keyframes heroHoverFloat {
   0% {
-    transform: translate(-50%, -125%) scale(0.88) rotate(0deg);
+    transform: translate(-50%, -112%) scale(0.88) rotate(0deg);
   }
   25% {
-    transform: translate(calc(-50% + 4px), -130%) scale(0.89) rotate(1deg);
+    transform: translate(calc(-50% + 4px), -116%) scale(0.89) rotate(1deg);
   }
   50% {
-    transform: translate(-50%, -122%) scale(0.88) rotate(0deg);
+    transform: translate(-50%, -109%) scale(0.88) rotate(0deg);
   }
   75% {
-    transform: translate(calc(-50% - 4px), -129%) scale(0.89) rotate(-1deg);
+    transform: translate(calc(-50% - 4px), -115%) scale(0.89) rotate(-1deg);
   }
   100% {
-    transform: translate(-50%, -125%) scale(0.88) rotate(0deg);
+    transform: translate(-50%, -112%) scale(0.88) rotate(0deg);
   }
 }
 
@@ -362,7 +362,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-product-image-wrap {
     animation: none !important;
-    transform: translate(-50%, -125%) scale(0.88) !important;
+    transform: translate(-50%, -112%) scale(0.88) !important;
   }
   .hero-giant-title {
     animation: none !important;
