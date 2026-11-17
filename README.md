@@ -1,4 +1,4 @@
-# Mi Earbuddy 🎧
+﻿# Mi Earbuddy 🎧
 
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6?style=flat&logo=windows)](https://github.com/Ghost-Faith/MiEarbuddy)
 [![Framework](https://img.shields.io/badge/.NET%20Framework-4.0%2B-512BD4?style=flat&logo=dotnet)](https://github.com/Ghost-Faith/MiEarbuddy)
@@ -118,3 +118,22 @@ No Visual Studio installation or external package managers are required.
 ## 📜 License
 
 This project is licensed under the MIT License - feel free to use, modify, and contribute.
+
+---
+
+## ⚖️ Legal Disclaimer & Trademarks
+
+- **Xiaomi**, **Redmi**, and **HyperOS** are registered trademarks of Xiaomi Inc.
+- **Fast Pair** is a trademark of Google LLC.
+- **Windows** is a registered trademark of Microsoft Corporation.
+- **Mi Earbuddy** is an independent, community-driven open-source project created strictly for hardware interoperability. It is **not** affiliated with, sponsored by, or endorsed by Xiaomi Inc., Google LLC, or Microsoft Corporation.
+- All product names, hardware designs, and trademarks mentioned remain the property of their respective owners.
+
+---
+
+## 🛡️ Project Identity & Forking Guidelines
+
+- **Mi Earbuddy** is the official name and brand identity created and maintained by **Ghost-Faith**.
+- Community forks, adaptations, and improvements to the source code are fully permitted under the MIT License.
+- However, any distributed modified versions or derivative software **must use a distinctly different name, logo, and visual identity** to prevent user confusion with the official Mi Earbuddy application.
+- Modified distributions must retain the original copyright notice crediting **Ghost-Faith**.
