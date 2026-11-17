@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <!-- Exact vector recreation of MiEarbuddy TrayManager.cs CreateEarbudIcon() -->
+  <!-- Solid Black Circle Background -->
+  <circle cx="32" cy="32" r="30" fill="#000000" />
+  
+  <!-- Earbud Head: Ergonmic Ovoid (scaled from 8,7, 13,11) -->
+  <ellipse cx="29" cy="25" rx="13" ry="11" fill="#FFFFFF" />
+  
+  <!-- Ear Tip: In-ear cushion (scaled from 6,9, 6,7) -->
+  <ellipse cx="18" cy="25" rx="6" ry="7" fill="#FFFFFF" />
+  
+  <!-- Stem: Rounded Rectangle (scaled from 14,13, 5,12, r=2) -->
+  <rect x="28" y="26" width="10" height="24" rx="4" ry="4" fill="#FFFFFF" />
+</svg>

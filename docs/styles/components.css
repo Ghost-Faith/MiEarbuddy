@@ -1,0 +1,1096 @@
+/* ==========================================================================
+   MiEarbuddy — Components Stylesheet (Apple AirPods Pro Aesthetic)
+   Pure Deep Black, Monumental Typography, Authentic Window Mockups
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Top Announcement Bar (Apple Style)
+   -------------------------------------------------------------------------- */
+.top-announcement-bar {
+  background: #111113;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 16px;
+  font-size: 0.8125rem;
+  color: var(--text-silver);
+  text-align: center;
+  position: relative;
+  z-index: 1001;
+}
+
+.top-announcement-bar a {
+  color: var(--apple-blue);
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.top-announcement-bar a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   2. Sticky Product Subnav Bar (Matching Screenshot)
+   -------------------------------------------------------------------------- */
+.product-subnav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border-subtle);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+}
+
+.subnav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subnav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-white);
+  letter-spacing: -0.015em;
+}
+
+.subnav-app-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: block;
+}
+
+.subnav-menu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+}
+
+.subnav-link {
+  font-size: 0.75rem;
+  color: var(--text-silver);
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+.subnav-link:hover,
+.subnav-link.active {
+  color: var(--text-white);
+}
+
+.subnav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subnav-lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  transition: all 0.2s ease;
+}
+
+.subnav-lang-btn:hover {
+  color: var(--text-white);
+  border-color: var(--border-medium);
+}
+
+.subnav-lang-btn .active-lang {
+  color: var(--text-white);
+  font-weight: 600;
+}
+
+.mobile-subnav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-white);
+  padding: 6px;
+  cursor: pointer;
+}
+
+@media (max-width: 860px) {
+  .subnav-menu {
+    display: none;
+  }
+  .mobile-subnav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.mobile-subnav-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border-medium);
+  padding: 16px 24px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-subnav-dropdown.is-open {
+  display: flex;
+}
+
+.mobile-nav-link {
+  font-size: 0.9375rem;
+  color: var(--text-silver);
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  color: var(--text-white);
+}
+
+/* --------------------------------------------------------------------------
+   3. Hero Section (Monumental Typography & Earbuds Presentation)
+   Inspired directly by the Apple AirPods Pro official presentation
+   -------------------------------------------------------------------------- */
+.hero-apple-stage {
+  padding-top: 40px;
+  padding-bottom: 90px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, rgba(20, 20, 32, 0.75) 0%, rgba(0, 0, 0, 1) 75%);
+}
+
+.hero-monumental-wrap {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Floating Earbuds Stage */
+.hero-case-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+  z-index: 2;
+  margin-bottom: -36px; /* Elegant visual anchor with typography */
+}
+
+@media (max-width: 600px) {
+  .hero-case-stage {
+    min-height: 190px;
+    margin-bottom: -24px;
+  }
+}
+
+/* Ambient blue backlight behind the charging case */
+.hero-ambient-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 113, 227, 0.3) 0%, rgba(0, 113, 227, 0) 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* The open charging case & earbuds */
+.hero-product-image {
+  position: relative;
+  z-index: 2;
+  width: clamp(210px, 34vw, 360px);
+  max-width: 90%;
+  height: auto;
+  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 15px 35px rgba(0, 113, 227, 0.25));
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s ease;
+  animation: heroEarbudReveal 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards, heroGentleLevitate 4.5s ease-in-out 1.6s infinite alternate;
+  will-change: transform, filter;
+}
+
+/* Monumental Typography Container */
+.hero-giant-title-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* The giant background title letters: 100% UNHINDERED & VISIBLE */
+.hero-giant-title {
+  font-size: clamp(2.75rem, 12vw, 9.5rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: #ffffff;
+  line-height: 0.95;
+  user-select: none;
+  text-shadow: 0 0 50px rgba(255, 255, 255, 0.4), 0 10px 40px rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  animation: heroTitleIlluminate 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: text-shadow 0.6s ease, letter-spacing 0.6s ease;
+}
+
+/* Keyframes: Cinematic entry where earphones start lower in front, then gracefully elevate to reveal the full title */
+@keyframes heroEarbudReveal {
+  0% {
+    transform: translateY(85px) scale(1.12);
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+  }
+  20% {
+    transform: translateY(85px) scale(1.12);
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+  }
+  100% {
+    transform: translateY(0px) scale(1.0);
+    filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 15px 35px rgba(0, 113, 227, 0.25));
+  }
+}
+
+@keyframes heroTitleIlluminate {
+  0%, 20% {
+    opacity: 0.6;
+    letter-spacing: -0.06em;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: -0.04em;
+    text-shadow: 0 0 50px rgba(255, 255, 255, 0.45), 0 10px 40px rgba(0, 0, 0, 0.85);
+  }
+}
+
+/* Gentle continuous levitation loop once revealed */
+@keyframes heroGentleLevitate {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Replay animation on click */
+.hero-monumental-wrap.replay-anim .hero-product-image {
+  animation: heroEarbudReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, heroGentleLevitate 4.5s ease-in-out 1.4s infinite alternate !important;
+}
+
+.hero-monumental-wrap.replay-anim .hero-giant-title {
+  animation: heroTitleIlluminate 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+/* Hover: Interactive elevation & glow */
+.hero-monumental-wrap:hover .hero-product-image {
+  transform: translateY(-14px) scale(1.03);
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.95)) drop-shadow(0 20px 45px rgba(0, 113, 227, 0.4));
+}
+
+.hero-monumental-wrap:hover .hero-giant-title {
+  text-shadow: 0 0 60px rgba(255, 255, 255, 0.6), 0 10px 40px rgba(0, 0, 0, 0.9);
+  letter-spacing: -0.035em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-product-image {
+    animation: none !important;
+    transform: translateY(0px) scale(1.0) !important;
+  }
+  .hero-giant-title {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+.hero-copy-wrap {
+  max-width: 740px;
+  margin: 30px auto 0;
+  position: relative;
+  z-index: 3;
+}
+
+.hero-headline {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  color: var(--text-white);
+}
+
+.hero-description {
+  font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
+  color: var(--text-silver);
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.hero-specs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.hero-specs-bar span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-specs-bar .dot-separator {
+  color: var(--border-medium);
+}
+
+/* --------------------------------------------------------------------------
+   4. Cinematic Showcase: The Native Windows Application
+   -------------------------------------------------------------------------- */
+.showcase-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 900px) {
+  .showcase-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+.window-mockup-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* Authentic Windows 11 DWM Window */
+.win11-acrylic-window {
+  width: 100%;
+  max-width: 440px;
+  background: #0e0f12;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.win11-acrylic-titlebar {
+  height: 38px;
+  background: #14151a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.win11-titlebar-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Authentic 16x16 icon in Windows 11 title bar — strictly isolated */
+.win11-titlebar-title img,
+.win11-acrylic-titlebar .win11-titlebar-title img {
+  width: 16px !important;
+  height: 16px !important;
+  max-width: 16px !important;
+  max-height: 16px !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  object-fit: contain !important;
+}
+
+.win11-status-green-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--status-green);
+  box-shadow: 0 0 6px var(--status-green);
+}
+
+.win11-titlebar-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.win11-caption-btn {
+  width: 24px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-silver);
+  font-size: 0.6875rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.win11-caption-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Cropped screenshot content below title bar */
+.win11-window-content-img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Editorial Breakdown alongside */
+.showcase-editorial {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.editorial-block h3 {
+  font-size: 1.375rem;
+  margin-bottom: 8px;
+}
+
+.editorial-block p {
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+/* --------------------------------------------------------------------------
+   5. Active Noise Cancellation (Acoustic Section)
+   -------------------------------------------------------------------------- */
+.anc-stage-wrapper {
+  background: #060608;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .anc-stage-wrapper {
+    padding: 24px;
+  }
+}
+
+.anc-modes-switch-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.anc-switch-pill {
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-medium);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-silver);
+  transition: all 0.2s var(--ease-apple);
+}
+
+.anc-switch-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+}
+
+.anc-switch-pill.active {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  font-weight: 600;
+}
+
+/* Waveform Canvas Container */
+.waveform-canvas-card {
+  width: 100%;
+  height: 200px;
+  background: #020203;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ancWaveCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.waveform-caption {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-silver);
+  margin-bottom: 48px;
+}
+
+.waveform-caption strong {
+  color: var(--text-white);
+}
+
+/* Editorial 3-Column Acoustic Breakdown */
+.anc-trio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 40px;
+}
+
+@media (max-width: 860px) {
+  .anc-trio-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.anc-trio-col h4 {
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+}
+
+.anc-trio-col p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* Anti-bounce note */
+.anti-bounce-box {
+  margin-top: 36px;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 2px solid var(--apple-blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.9375rem;
+  color: var(--text-silver);
+  line-height: 1.5;
+}
+
+.anti-bounce-box strong {
+  color: var(--text-white);
+}
+
+/* --------------------------------------------------------------------------
+   6. Battery Monitoring Section
+   -------------------------------------------------------------------------- */
+.battery-trio-presentation {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 24px;
+  align-items: center;
+  margin: 40px 0;
+}
+
+@media (max-width: 768px) {
+  .battery-trio-presentation {
+    grid-template-columns: 1fr;
+  }
+}
+
+.battery-capsule-display {
+  background: #0a0a0d;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.battery-capsule-display.featured {
+  background: #101014;
+  border-color: var(--border-medium);
+  padding: 40px 28px;
+}
+
+.capsule-label {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Pill meter representation matching GDI+ */
+.battery-pill-outer {
+  width: 140px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: #040405;
+  border: 2px solid #333338;
+  padding: 2px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.battery-pill-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--status-green);
+  transition: width 0.4s ease;
+}
+
+.capsule-number {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.capsule-number .bolt {
+  color: var(--status-green);
+  font-size: 1.25rem;
+}
+
+.capsule-subtag {
+  font-size: 0.8125rem;
+  color: var(--status-green);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   7. System Tray Showcase
+   -------------------------------------------------------------------------- */
+.tray-showcase-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 860px) {
+  .tray-showcase-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tray-preview-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.tray-preview-img {
+  max-width: 280px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+}
+
+.tray-taskbar-simulation {
+  width: 100%;
+  max-width: 440px;
+  height: 48px;
+  background: #14151a;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.tray-icon-interactive {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.tray-icon-interactive:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tray-icon-interactive img {
+  width: 18px;
+  height: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Performance & Zero Bloat (Giant Apple Stats)
+   -------------------------------------------------------------------------- */
+.stats-monumental-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin: 48px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 48px 0;
+}
+
+@media (max-width: 860px) {
+  .stats-monumental-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-monumental-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-big-number {
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  font-weight: 800;
+  color: var(--text-white);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-silver);
+  margin-bottom: 4px;
+}
+
+.stat-note {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   9. Steps / How It Works
+   -------------------------------------------------------------------------- */
+.clean-steps-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+}
+
+@media (max-width: 900px) {
+  .clean-steps-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .clean-steps-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.step-num {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.step-item h4 {
+  font-size: 1.125rem;
+  margin-bottom: 8px;
+}
+
+.step-item p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   10. Compatibility & Requirements
+   -------------------------------------------------------------------------- */
+.compat-editorial-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  margin-top: 40px;
+  background: #060608;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 48px;
+}
+
+@media (max-width: 860px) {
+  .compat-editorial-grid {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+}
+
+.compat-checklist-clean {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.compat-checklist-clean li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 1rem;
+  color: var(--text-silver);
+}
+
+.compat-checklist-clean li svg {
+  color: var(--apple-blue);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   11. Download Section (Clean, Apple Direct)
+   -------------------------------------------------------------------------- */
+.download-apple-banner {
+  text-align: center;
+  padding: 80px 24px;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 20, 28, 0.7) 0%, rgba(0, 0, 0, 1) 80%);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.download-apple-banner h2 {
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 16px;
+}
+
+.download-apple-banner p {
+  max-width: 600px;
+  margin: 0 auto 36px;
+}
+
+.download-buttons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+/* CLI command line boxes */
+.cli-pills-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cli-code-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0d0d10;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: #7dd3fc;
+}
+
+.cli-code-pill button {
+  color: var(--text-silver);
+  transition: color 0.2s ease;
+}
+
+.cli-code-pill button:hover {
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   12. Accessible FAQ Accordion (Complies strictly with modern-web-guidance)
+   -------------------------------------------------------------------------- */
+.faq-accordion-clean {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.faq-accordion-clean details {
+  background: #060608;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.faq-accordion-clean details[open] {
+  background: #0c0c10;
+  border-color: var(--border-medium);
+}
+
+.faq-accordion-clean summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--text-white);
+  user-select: none;
+}
+
+.faq-accordion-clean summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-accordion-clean summary:hover {
+  color: var(--apple-blue);
+}
+
+.faq-icon-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.faq-accordion-clean details[open] .faq-icon-chevron {
+  transform: rotate(180deg);
+  color: var(--text-white);
+}
+
+.faq-body-content {
+  padding: 0 24px 22px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-silver);
+}
+
+/* --------------------------------------------------------------------------
+   13. Minimalist Footer
+   -------------------------------------------------------------------------- */
+.apple-footer {
+  background: #000000;
+  border-top: 1px solid var(--border-subtle);
+  padding: 60px 0 32px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.footer-columns-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 36px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 768px) {
+  .footer-columns-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.footer-col-head {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col-links a {
+  color: var(--text-silver);
+}
+
+.footer-col-links a:hover {
+  color: var(--text-white);
+  text-decoration: underline;
+}
+
+.footer-legal-bar {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}

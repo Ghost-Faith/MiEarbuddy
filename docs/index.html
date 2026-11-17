@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Modern Web Guidance: Mandate color-scheme in HTML to prevent FOUC -->
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
+
+  <!-- Primary Meta Tags -->
+  <title>MiEarbuddy — Modern Windows Companion for Xiaomi & Redmi Earbuds</title>
+  <meta name="title" content="MiEarbuddy — Modern Windows Companion for Xiaomi & Redmi Earbuds">
+  <meta name="description" content="A native, ultra-lightweight Windows desktop companion that brings intelligent Active Noise Cancellation control, real-time triple-cell battery monitoring, and seamless system tray integration to your desktop.">
+  <meta name="author" content="Ghost-Faith">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.com/Ghost-Faith/MiEarbuddy">
+  <meta property="og:title" content="MiEarbuddy — Your Earbuds. Your Control.">
+  <meta property="og:description" content="A native, ultra-lightweight Windows desktop companion for Xiaomi & Redmi Earbuds. Pure C#, 0.0% CPU Idle, ~25MB RAM.">
+  <meta property="og:image" content="assets/images/dashboard_preview.png">
+
+  <!-- Favicon using the authentic application icon -->
+  <link rel="icon" type="image/x-icon" href="assets/images/app.ico">
+  <link rel="alternate icon" type="image/png" href="assets/images/app-icon.png">
+  <link rel="icon" type="image/svg+xml" href="assets/images/app-icon.svg">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/animations.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar (Apple Style) -->
+  <div class="top-announcement-bar" role="region" aria-label="Announcement">
+    <span data-i18n="bannerText">MiEarbuddy 1.0 is now available for Windows 11 &amp; 10. Pure C# • 0.0% CPU.</span>
+    <a href="https://github.com/Ghost-Faith/MiEarbuddy/releases/download/v1.0.0/MiEarbuddy.exe" data-i18n="bannerLink">Download v1.0.0 (.exe) &gt;</a>
+  </div>
+
+  <!-- Sticky Product Subnav Bar (Matching Apple Product Presentation) -->
+  <nav class="product-subnav" role="navigation" aria-label="Product Navigation">
+    <div class="container subnav-container">
+      <a href="#overview" class="subnav-brand" aria-label="MiEarbuddy Home">
+        <!-- Official authentic project icon from app.ico / app-icon.svg -->
+        <img src="assets/images/app-icon.svg" alt="MiEarbuddy Icon" class="subnav-app-icon" width="24" height="24">
+        <span>MiEarbuddy</span>
+      </a>
+
+      <!-- Center Links -->
+      <ul class="subnav-menu">
+        <li><a href="#overview" class="subnav-link active" data-i18n="navOverview">Overview</a></li>
+        <li><a href="#showcase" class="subnav-link" data-i18n="navShowcase">Showcase</a></li>
+        <li><a href="#noise-control" class="subnav-link" data-i18n="navNoiseControl">Noise Control</a></li>
+        <li><a href="#battery" class="subnav-link" data-i18n="navBattery">Battery</a></li>
+        <li><a href="#tray" class="subnav-link" data-i18n="navTray">System Tray</a></li>
+        <li><a href="#performance" class="subnav-link" data-i18n="navPerformance">Performance</a></li>
+        <li><a href="#compatibility" class="subnav-link" data-i18n="navCompatibility">Compatibility</a></li>
+        <li><a href="#faq" class="subnav-link" data-i18n="navFaq">FAQ</a></li>
+      </ul>
+
+      <!-- Actions & Language Switcher -->
+      <div class="subnav-actions">
+        <!-- Language Switcher Pill -->
+        <button class="subnav-lang-btn lang-toggle-btn" aria-label="Toggle language between English and Portuguese" title="Switch Language (EN / PT)">
+          <span class="lang-indicator-en active-lang">EN</span>
+          <span>/</span>
+          <span class="lang-indicator-pt">PT</span>
+        </button>
+
+        <!-- Apple-Style Blue Pill Direct Download Button -->
+        <a href="https://github.com/Ghost-Faith/MiEarbuddy/releases/download/v1.0.0/MiEarbuddy.exe" class="btn-apple" data-i18n="navDownload">Download</a>
+
+        <!-- Mobile Subnav Toggle -->
+        <button class="mobile-subnav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Subnav Dropdown -->
+    <div class="mobile-subnav-dropdown" id="mobileSubnavDropdown">
+      <a href="#overview" class="mobile-nav-link" data-i18n="navOverview">Overview</a>
+      <a href="#showcase" class="mobile-nav-link" data-i18n="navShowcase">Showcase</a>
+      <a href="#noise-control" class="mobile-nav-link" data-i18n="navNoiseControl">Noise Control</a>
+      <a href="#battery" class="mobile-nav-link" data-i18n="navBattery">Battery</a>
+      <a href="#tray" class="mobile-nav-link" data-i18n="navTray">System Tray</a>
+      <a href="#performance" class="mobile-nav-link" data-i18n="navPerformance">Performance</a>
+      <a href="#compatibility" class="mobile-nav-link" data-i18n="navCompatibility">Compatibility</a>
+      <a href="#faq" class="mobile-nav-link" data-i18n="navFaq">FAQ</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ======================================================================
+         1. Hero Section (Monumental Typography & Earbuds Presentation)
+         Directly inspired by Apple AirPods Pro official presentation
+         ====================================================================== -->
+    <section id="overview" class="hero-apple-stage">
+      <div class="container">
+        <!-- Monumental Typography & Earbuds Presentation -->
+        <div class="hero-monumental-wrap reveal-scale" id="heroMonumentalWrap" title="Click to replay reveal animation">
+          <!-- Floating Earbuds & Case with Ambient Aura -->
+          <div class="hero-case-stage">
+            <div class="hero-ambient-aura"></div>
+            <img src="assets/images/case.png" alt="Xiaomi and Redmi Earbuds in Open Charging Case" class="hero-product-image" width="380" height="380" loading="eager">
+          </div>
+
+          <!-- Monumental Typography (100% Unobstructed & Legible) -->
+          <div class="hero-giant-title-container">
+            <div class="hero-giant-title">MiEarbuddy</div>
+          </div>
+        </div>
+
+        <!-- Headline & Editorial Copy -->
+        <div class="hero-copy-wrap reveal-on-scroll delay-1">
+          <h1 class="hero-headline">
+            <span data-i18n="heroTitlePart1">Your earbuds.</span> <span data-i18n="heroTitlePart2">Your control.</span>
+          </h1>
+
+          <p class="hero-description" data-i18n="heroSubtitle">
+            A lightweight Windows companion that brings intelligent control, real-time battery monitoring and seamless earbud management to your desktop.
+          </p>
+
+          <!-- Apple Style CTA Row -->
+          <div class="hero-cta-group">
+            <a href="https://github.com/Ghost-Faith/MiEarbuddy/releases/download/v1.0.0/MiEarbuddy.exe" class="btn-apple btn-apple-lg">
+              <span data-i18n="heroBtnDownload">Download for Windows</span>
+            </a>
+            <a href="https://github.com/Ghost-Faith/MiEarbuddy" target="_blank" rel="noopener noreferrer" class="btn-link-apple">
+              <span data-i18n="heroBtnGithub">View on GitHub</span> &gt;
+            </a>
+          </div>
+
+          <!-- Clean Hardware Specs Bar -->
+          <div class="hero-specs-bar">
+            <span data-i18n="heroSpecWin">Windows 11 &amp; 10</span>
+            <span class="dot-separator">•</span>
+            <span data-i18n="heroSpecNative">Pure C# Native</span>
+            <span class="dot-separator">•</span>
+            <span data-i18n="heroSpecCpu">0.0% CPU Idle</span>
+            <span class="dot-separator">•</span>
+            <span data-i18n="heroSpecRam">~25 MB RAM</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         2. Cinematic Product Showcase
+         ====================================================================== -->
+    <section id="showcase" class="section">
+      <div class="container">
+        <h2 class="section-headline reveal-on-scroll" data-i18n-html="showcaseHeading">
+          Engineered for Windows.<br>
+          <span style="color: var(--text-silver);">Designed with HyperOS Precision.</span>
+        </h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="showcaseSubtitle">
+          MiEarbuddy bridges the gap between Xiaomi's refined mobile design and native Windows desktop architecture.
+        </p>
+
+        <div class="showcase-stage">
+          <!-- Left: Realistic Windows 11 Acrylic Window Frame -->
+          <div class="window-mockup-wrapper reveal-scale">
+            <div class="win11-acrylic-window">
+              <div class="win11-acrylic-titlebar">
+                <div class="win11-titlebar-title">
+                  <img src="assets/images/app-icon.svg" alt="App Icon" width="16" height="16">
+                  <span data-i18n="showcaseWinTitle">Mi Earbuddy - Redmi Buds 5 Pro</span>
+                  <span class="win11-status-green-dot" title="Connected" data-i18n-title="showcaseStatus"></span>
+                </div>
+                <div class="win11-titlebar-buttons">
+                  <span class="win11-caption-btn" title="Reset Size">↺</span>
+                  <span class="win11-caption-btn" title="Minimize">─</span>
+                  <span class="win11-caption-btn" title="Hide to Tray">✕</span>
+                </div>
+              </div>
+              <!-- Real high-resolution application screenshot (cropped to remove duplicate header) -->
+              <img src="assets/images/dashboard_content.png" alt="MiEarbuddy Main HyperOS Dashboard Interface" class="win11-window-content-img" width="468" height="603" loading="lazy">
+            </div>
+          </div>
+
+          <!-- Right: Editorial Breakdown -->
+          <div class="showcase-editorial reveal-on-scroll delay-1">
+            <div class="editorial-block">
+              <h3 data-i18n="showcaseHotspot1Title">Responsive Adaptive Header</h3>
+              <p data-i18n="showcaseHotspot1Desc">
+                Fluid title bar controls, instant language toggle (EN/PT), and clean custom caption buttons (↺ Reset, ─ Minimize, ✕ Hide to Tray).
+              </p>
+            </div>
+
+            <div class="editorial-block">
+              <h3 data-i18n="showcaseHotspot2Title">GDI+ Real-Time Battery Capsules</h3>
+              <p data-i18n="showcaseHotspot2Desc">
+                Triple-cell FastPair monitoring rendered natively with dynamic color transitions and charging lightning indicators.
+              </p>
+            </div>
+
+            <div class="editorial-block">
+              <h3 data-i18n="showcaseHotspot3Title">Direct Noise Control Architecture</h3>
+              <p data-i18n="showcaseHotspot3Desc">
+                One-click switching between Active Noise Cancellation, Transparency Mode, and Off Mode via RFCOMM sockets.
+              </p>
+            </div>
+
+            <div class="editorial-block">
+              <h3 data-i18n="showcaseHotspot4Title">Smart System Tray Minimization</h3>
+              <p data-i18n="showcaseHotspot4Desc">
+                Minimizes instantly next to your Windows clock. Zero CPU overhead during background standby.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         3. Active Noise Cancellation (Acoustic Section)
+         ====================================================================== -->
+    <section id="noise-control" class="section">
+      <div class="container">
+        <h2 class="section-headline reveal-on-scroll" data-i18n-html="ancHeading">
+          Up to 52 dB of silence.<br>
+          <span style="color: var(--apple-blue);">At your fingertips.</span>
+        </h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="ancSubtitle">
+          Command earbud DSP hardware directly over Winsock RFCOMM sockets with zero audio stutter.
+        </p>
+
+        <div class="anc-stage-wrapper reveal-on-scroll">
+          <!-- 3 Mode Switch Pills -->
+          <div class="anc-modes-switch-bar">
+            <button class="anc-switch-pill active" data-mode="anc" data-i18n="ancMode1Title">Active Noise Cancellation</button>
+            <button class="anc-switch-pill" data-mode="transparency" data-i18n="ancMode2Title">Transparency Mode</button>
+            <button class="anc-switch-pill" data-mode="off" data-i18n="ancMode3Title">Off Mode</button>
+          </div>
+
+          <!-- Dynamic Acoustic Canvas Waveform -->
+          <div class="waveform-canvas-card">
+            <canvas id="ancWaveCanvas" width="900" height="200"></canvas>
+          </div>
+
+          <div class="waveform-caption">
+            <span id="ancCaptionLead" style="font-weight: 600; color: #ffffff;" data-i18n="ancCaptionLead1">Active Noise Cancellation:</span>
+            <span id="ancCaptionBody" data-i18n="ancCaptionBody1">Anti-phase acoustic frequencies actively canceling external background hum (-52 dB).</span>
+          </div>
+
+          <!-- Editorial Trio Grid -->
+          <div class="anc-trio-grid">
+            <div class="anc-trio-col">
+              <h4 data-i18n="ancMode1Title">Noise Cancellation</h4>
+              <p data-i18n="ancMode1Desc">
+                Deep active noise suppression. Eliminates low-frequency engine, fan, and commute hum for pure acoustic focus.
+              </p>
+            </div>
+
+            <div class="anc-trio-col">
+              <h4 data-i18n="ancMode2Title">Transparency Mode</h4>
+              <p data-i18n="ancMode2Desc">
+                Natural ambient awareness. Blends surrounding voices and environment seamlessly without removing your earbuds.
+              </p>
+            </div>
+
+            <div class="anc-trio-col">
+              <h4 data-i18n="ancMode3Title">Off Mode</h4>
+              <p data-i18n="ancMode3Desc">
+                Standard passive acoustic seal. Conserves earbud battery while maintaining natural physical isolation.
+              </p>
+            </div>
+          </div>
+
+          <!-- Anti-Bounce Filter Callout -->
+          <div class="anti-bounce-box">
+            <strong data-i18n="ancAntiBounceTitle">Smart Anti-Bounce Filter:</strong>
+            <span data-i18n="ancAntiBounceDesc">
+              Prevents audio stutter and suppresses transient dual-earbud sync echoes, ensuring mode transitions are instantaneous with a single clean earbud chime.
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         4. Real-Time Battery Monitoring Section
+         ====================================================================== -->
+    <section id="battery" class="section">
+      <div class="container">
+        <h2 class="section-headline reveal-on-scroll" data-i18n-html="battHeading">
+          Every bud. The case.<br>
+          <span style="color: var(--status-green);">Always in sight.</span>
+        </h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="battSubtitle">
+          Never get surprised by an empty earbud. Live battery telemetry decoded instantly in real time.
+        </p>
+
+        <!-- 3-Capsule Presentation -->
+        <div class="battery-trio-presentation reveal-on-scroll">
+          <!-- Left Earbud -->
+          <div class="battery-capsule-display">
+            <div class="capsule-label" data-i18n="battLeft">Left Earbud</div>
+            <div class="battery-pill-outer">
+              <div class="battery-pill-fill" style="width: 85%;"></div>
+            </div>
+            <div class="capsule-number">85% <span class="bolt">⚡</span></div>
+            <div class="capsule-subtag" data-i18n="battCharging">Charging</div>
+          </div>
+
+          <!-- Case (Featured Center) -->
+          <div class="battery-capsule-display featured">
+            <div class="capsule-label" data-i18n="battCase">Charging Case</div>
+            <div class="battery-pill-outer" style="width: 170px; height: 32px;">
+              <div class="battery-pill-fill" style="width: 100%;"></div>
+            </div>
+            <div class="capsule-number">100%</div>
+            <div class="capsule-subtag" data-i18n="battReady">In Use</div>
+          </div>
+
+          <!-- Right Earbud -->
+          <div class="battery-capsule-display">
+            <div class="capsule-label" data-i18n="battRight">Right Earbud</div>
+            <div class="battery-pill-outer">
+              <div class="battery-pill-fill" style="width: 85%;"></div>
+            </div>
+            <div class="capsule-number">85% <span class="bolt">⚡</span></div>
+            <div class="capsule-subtag" data-i18n="battCharging">Charging</div>
+          </div>
+        </div>
+
+        <p style="text-align: center; font-size: 0.9375rem; color: var(--text-silver); max-width: 640px; margin: 0 auto;" data-i18n="battFooterNote">
+          Decodes Google FastPair telemetry beacons in real time. Dynamic color thresholds warn you when an earbud reaches 20%, and lightning indicators verify charging status instantly.
+        </p>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         5. System Tray Integration
+         ====================================================================== -->
+    <section id="tray" class="section">
+      <div class="container">
+        <h2 class="section-headline reveal-on-scroll" data-i18n-html="trayHeading">
+          Always ready.<br>
+          <span style="color: var(--text-silver);">Never in your way.</span>
+        </h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="traySubtitle">
+          MiEarbuddy resides quietly in your Windows Notification Area, giving you instant access without cluttering your taskbar.
+        </p>
+
+        <div class="tray-showcase-split">
+          <!-- Left: Real Tray Menu Screenshot -->
+          <div class="tray-preview-frame reveal-scale">
+            <img src="assets/images/tray_preview.png" alt="MiEarbuddy Real Windows System Tray Context Menu" class="tray-preview-img" width="275" height="346" loading="lazy">
+            <span style="font-size: 0.8125rem; color: var(--text-muted);" data-i18n="trayPreviewCaption">Dedicated Windows System Tray Context Menu</span>
+          </div>
+
+          <!-- Right: Editorial Features -->
+          <div class="showcase-editorial reveal-on-scroll delay-1">
+            <div class="editorial-block">
+              <h3 data-i18n="trayBlock1Title">Real-Time Hover Tooltip</h3>
+              <p data-i18n="trayBlock1Desc">
+                Hovering over the tray icon next to your Windows clock instantly reveals current earbud model, individual battery percentages, and active noise mode.
+              </p>
+            </div>
+
+            <div class="editorial-block">
+              <h3 data-i18n="trayBlock2Title">One-Click Noise Mode Switching</h3>
+              <p data-i18n="trayBlock2Desc">
+                Toggle Noise Cancellation, Transparency Mode, or Off directly from the notification area without opening the main window.
+              </p>
+            </div>
+
+            <div class="editorial-block">
+              <h3 data-i18n="trayBlock3Title">Start with Windows</h3>
+              <p data-i18n="trayBlock3Desc">
+                Integrated with Windows Registry (<code>Run</code> key) and <code>-tray</code> launch argument for completely silent, unobtrusive background startup.
+              </p>
+            </div>
+
+            <!-- Taskbar Simulation -->
+            <div class="tray-taskbar-simulation">
+              <div style="font-size: 0.75rem; color: var(--text-silver);" data-i18n="trayTaskbarSim">Windows 11 Notification Area</div>
+              <div class="tray-icon-interactive" title="MiEarbuddy Tray Icon">
+                <img src="assets/images/app-icon.svg" alt="Tray Icon" width="18" height="18">
+                <span style="font-size: 0.75rem; color: #ffffff; font-weight: 500;">02:15</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         6. Performance & Architecture (Monumental Apple Stats)
+         ====================================================================== -->
+    <section id="performance" class="section">
+      <div class="container">
+        <h2 class="section-headline reveal-on-scroll" data-i18n-html="perfHeading">
+          0.0% CPU.<br>
+          ~25 MB RAM.<br>
+          <span style="color: var(--apple-blue);">Zero Electron.</span>
+        </h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="perfSubtitle">
+          Built with pure C# and Windows GDI+. No web runtimes, no Node.js, no WebView2, and no Python.
+        </p>
+
+        <!-- Giant Monumental Stats -->
+        <div class="stats-monumental-grid reveal-on-scroll">
+          <div class="stat-cell">
+            <div class="stat-big-number">0.0%</div>
+            <div class="stat-title" data-i18n="perfStat2Label">CPU at Idle</div>
+            <div class="stat-note" data-i18n="perfStat2Desc">Zero background consumption while in system tray.</div>
+          </div>
+
+          <div class="stat-cell">
+            <div class="stat-big-number">~25 MB</div>
+            <div class="stat-title" data-i18n="perfStat1Label">RAM Footprint</div>
+            <div class="stat-note" data-i18n="perfStat1Desc">95% less memory than modern Electron utilities.</div>
+          </div>
+
+          <div class="stat-cell">
+            <div class="stat-big-number">&lt; 0.2s</div>
+            <div class="stat-title" data-i18n="perfStat5Label">Instant Startup</div>
+            <div class="stat-note" data-i18n="perfStat5Desc">Instantaneous execution with no framework lag.</div>
+          </div>
+
+          <div class="stat-cell">
+            <div class="stat-big-number">~680 KB</div>
+            <div class="stat-title" data-i18n="perfStat4Label">Single Executable</div>
+            <div class="stat-note" data-i18n="perfStat4Desc">Ultra-compact standalone portable binary.</div>
+          </div>
+        </div>
+
+        <!-- Architecture Callouts -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; margin-top: 48px;">
+          <div>
+            <h4 style="font-size: 1.0625rem; margin-bottom: 8px;" data-i18n="arch1Title">Winsock RFCOMM (ws2_32.dll)</h4>
+            <p style="font-size: 0.9375rem;" data-i18n="arch1Desc">Direct low-level communication with Windows Bluetooth sockets, eliminating high-latency driver wrappers.</p>
+          </div>
+          <div>
+            <h4 style="font-size: 1.0625rem; margin-bottom: 8px;" data-i18n="arch2Title">E21 Cryptographic Handshake</h4>
+            <p style="font-size: 0.9375rem;" data-i18n="arch2Desc">Reverse-engineered mutual challenge authentication protocol ensuring secure pairing with Xiaomi hardware.</p>
+          </div>
+          <div>
+            <h4 style="font-size: 1.0625rem; margin-bottom: 8px;" data-i18n="arch3Title">FastPair Telemetry Decoder</h4>
+            <p style="font-size: 0.9375rem;" data-i18n="arch3Desc">Extracts individual Left, Right, and Case battery percentages from Google FastPair beacons in real time.</p>
+          </div>
+          <div>
+            <h4 style="font-size: 1.0625rem; margin-bottom: 8px;" data-i18n="arch4Title">Single-Instance Mutex Guard</h4>
+            <p style="font-size: 0.9375rem;" data-i18n="arch4Desc">Prevents duplicate background processes, automatically bringing the active instance to the foreground.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         7. How It Works (Clean 4 Steps)
+         ====================================================================== -->
+    <section id="how-it-works" class="section">
+      <div class="container">
+        <h2 class="section-headline reveal-on-scroll">
+          <span data-i18n="howTitlePart1">Simple Setup.</span><br>
+          <span style="color: var(--text-silver);" data-i18n="howTitlePart2">Seamless Operation.</span>
+        </h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="howSubtitle">
+          Four simple steps to bring your Xiaomi and Redmi earbuds to your Windows desktop.
+        </p>
+
+        <div class="clean-steps-list reveal-on-scroll">
+          <div class="step-item">
+            <div class="step-num">01</div>
+            <h4 data-i18n="step1Title">Download MiEarbuddy</h4>
+            <p data-i18n="step1Desc">Download the standalone single executable (~680 KB). No installer, wizard, or admin permissions required.</p>
+          </div>
+
+          <div class="step-item">
+            <div class="step-num">02</div>
+            <h4 data-i18n="step2Title">Connect via Windows</h4>
+            <p data-i18n="step2Desc">Pair your Xiaomi or Redmi earbuds to your PC using the standard Windows Bluetooth settings menu.</p>
+          </div>
+
+          <div class="step-item">
+            <div class="step-num">03</div>
+            <h4 data-i18n="step3Title">Launch &amp; Authenticate</h4>
+            <p data-i18n="step3Desc">Run MiEarbuddy. It automatically discovers paired earbuds and performs the secure E21 cryptographic handshake.</p>
+          </div>
+
+          <div class="step-item">
+            <div class="step-num">04</div>
+            <h4 data-i18n="step4Title">Enjoy Full Control</h4>
+            <p data-i18n="step4Desc">Monitor triple-cell battery levels and toggle Active Noise Cancellation directly from your desktop or system tray.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         8. Compatibility & System Requirements
+         ====================================================================== -->
+    <section id="compatibility" class="section">
+      <div class="container">
+        <h2 class="section-headline reveal-on-scroll" data-i18n="compatTitle">Compatibility &amp; Requirements</h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="compatSubtitle">
+          Engineered specifically for Xiaomi and Redmi audio hardware on modern Windows operating systems.
+        </p>
+
+        <div class="compat-editorial-grid reveal-on-scroll">
+          <div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 12px;" data-i18n="compatBudsTitle">Verified Hardware: Redmi Buds 5 Pro</h3>
+            <p data-i18n="compatBudsDesc">
+              Specifically developed and verified on Redmi Buds 5 Pro. Compatible with Xiaomi and Redmi earbuds supporting Xiaomi MMA and FastPair RFCOMM protocol.
+            </p>
+
+            <ul class="compat-checklist-clean">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span data-i18n="compatCheck1">Active Noise Cancellation (ANC), Transparency, and Off modes</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span data-i18n="compatCheck2">Individual Left Bud, Right Bud, and Charging Case battery monitoring</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span data-i18n="compatCheck3">Smart Anti-Bounce filter for smooth acoustic transitions</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span data-i18n="compatCheck4">Start with Windows background auto-startup</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 16px;" data-i18n="compatSysReqTitle">System Requirements</h3>
+            <p style="font-size: 0.9375rem; margin-bottom: 12px;"><strong data-i18n="compatReqOsTitle">Operating System:</strong> <span data-i18n="compatReqOsDesc">Windows 11 (all editions) or Windows 10 (version 1809+).</span></p>
+            <p style="font-size: 0.9375rem; margin-bottom: 12px;"><strong data-i18n="compatReqNetTitle">.NET Framework:</strong> <span data-i18n="compatReqNetDesc">.NET Framework 4.0 or newer (built into Windows by default).</span></p>
+            <p style="font-size: 0.9375rem; margin-bottom: 12px;"><strong data-i18n="compatReqBtTitle">Bluetooth Hardware:</strong> <span data-i18n="compatReqBtDesc">Bluetooth 4.0+ adapter supporting RFCOMM serial connection.</span></p>
+            <p style="font-size: 0.9375rem;"><strong data-i18n="compatReqPermTitle">User Permissions:</strong> <span data-i18n="compatReqPermDesc">Standard user account (no Administrator elevation required).</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         9. Download Section (Clean, Apple Direct)
+         ====================================================================== -->
+    <section id="download" class="download-apple-banner">
+      <div class="container container-narrow">
+        <h2>
+          <span data-i18n="dlTitlePart1">Take control of your</span><br>
+          <span style="color: var(--apple-blue);" data-i18n="dlTitlePart2">listening experience.</span>
+        </h2>
+
+        <p data-i18n="dlSubtitle">
+          Get MiEarbuddy and bring your earbuds closer to your Windows desktop.
+        </p>
+
+        <div class="download-buttons-row">
+          <a href="https://github.com/Ghost-Faith/MiEarbuddy/releases/download/v1.0.0/MiEarbuddy.exe" class="btn-apple btn-apple-lg">
+            <span data-i18n="dlBtnExe">Download MiEarbuddy.exe</span>
+          </a>
+          <a href="https://github.com/Ghost-Faith/MiEarbuddy" target="_blank" rel="noopener noreferrer" class="btn-link-apple">
+            <span data-i18n="dlBtnRepo">GitHub Repository</span> &gt;
+          </a>
+        </div>
+
+        <div class="cli-pills-row">
+          <div class="cli-code-pill">
+            <span>MiEarbuddy.exe</span>
+            <button class="copy-btn" data-copy="MiEarbuddy.exe" title="Copy command" aria-label="Copy standard launch command">📋</button>
+          </div>
+          <div class="cli-code-pill">
+            <span>MiEarbuddy.exe -tray</span>
+            <button class="copy-btn" data-copy="MiEarbuddy.exe -tray" title="Copy command" aria-label="Copy tray launch command">📋</button>
+          </div>
+          <div class="cli-code-pill">
+            <span>build.bat</span>
+            <button class="copy-btn" data-copy="build.bat" title="Copy command" aria-label="Copy build script command">📋</button>
+          </div>
+        </div>
+
+        <div style="font-size: 0.8125rem; color: var(--text-muted); margin-top: 24px;">
+          <span data-i18n="dlMetaVersion">Version 1.0.0 • Standalone Executable (~680 KB)</span> • <span data-i18n="dlMetaLicense">Open Source • MIT License</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         10. Accessible Semantic FAQ Accordion
+         (Strict compliance with modern-web-guidance: no headings inside summary)
+         ====================================================================== -->
+    <section id="faq" class="section">
+      <div class="container container-narrow">
+        <h2 id="faq-heading" class="section-headline reveal-on-scroll" data-i18n="faqTitle">Frequently Asked Questions</h2>
+        <p class="section-subhead reveal-on-scroll" data-i18n="faqSubtitle">
+          Everything you need to know about MiEarbuddy, its architecture, and compatibility.
+        </p>
+
+        <section class="faq-accordion-clean reveal-on-scroll" aria-labelledby="faq-heading">
+          <details>
+            <summary>
+              <span data-i18n="faq1Q">What is MiEarbuddy?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq1A">
+              MiEarbuddy is a native, ultra-lightweight Windows desktop companion designed specifically for Xiaomi and Redmi earbuds. It provides real-time triple-cell battery monitoring (Left Bud, Case, Right Bud), seamless Active Noise Cancellation (ANC) control, and full Windows System Tray integration.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq2Q">Which earbuds are officially supported?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq2A">
+              The application is officially verified and hardware-tested on the Redmi Buds 5 Pro. It also communicates using standard Xiaomi MMA (Mobile Media Application) RFCOMM protocols and Google FastPair telemetry, meaning other Xiaomi and Redmi earbuds using this protocol family can connect.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq3Q">Is MiEarbuddy free and open source?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq3A">
+              Yes. MiEarbuddy is 100% free and open-source software released under the permissive MIT License. You are free to inspect the source code, modify it, and compile it yourself.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq4Q">Does it work on Windows 11 and Windows 10?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq4A">
+              Yes, MiEarbuddy fully supports both Windows 11 and Windows 10 (version 1809 and newer). On Windows 11, it automatically enables native Desktop Window Manager rounded corners (DWMWA_WINDOW_CORNER_PREFERENCE) and adaptive dark aesthetics.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq5Q">Do I need to install Python, Node.js, or Electron?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq5A">
+              No. MiEarbuddy is a pure native C# WinForms application compiled with built-in Windows APIs (GDI+ and Winsock). It has zero external dependencies and runs directly using the .NET Framework 4.0+ already included with Windows.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq6Q">Can I monitor each earbud and the case battery independently?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq6A">
+              Yes. MiEarbuddy decodes Google FastPair telemetry beacons in real time, displaying separate battery percentages and charging lightning indicators for the Left Earbud, Charging Case, and Right Earbud with color-coded safety levels.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq7Q">How does the Active Noise Cancellation control work?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq7A">
+              When you click Noise Cancellation, Transparency Mode, or Off, MiEarbuddy sends direct authenticated commands over Winsock RFCOMM sockets to the earbud's onboard DSP. A smart anti-bounce filter prevents dual-earbud sync echoes and audio stutter.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq8Q">Can I minimize the application to the Windows System Tray?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq8A">
+              Yes. Clicking the close button or pressing ESC minimizes MiEarbuddy directly to your Windows Notification Area. Hovering over the icon displays a live summary tooltip, and right-clicking opens a dark context menu with instant mode controls.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq9Q">How do I make MiEarbuddy start automatically with Windows?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq9A">
+              Right-click the MiEarbuddy icon in your System Tray and click 'Start with Windows'. The app writes an entry to your personal Windows User Registry (Software\Microsoft\Windows\CurrentVersion\Run) with the -tray flag, ensuring silent background startup.
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              <span data-i18n="faq10Q">How do I build the application from source code?</span>
+              <svg class="faq-icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </summary>
+            <div class="faq-body-content" data-i18n="faq10A">
+              The repository includes a fast native build script (build.bat). Simply run build.bat in command prompt. It uses the Microsoft .NET Framework C# compiler (csc.exe) pre-installed on your system, compiling the entire project in less than 1 second without needing Visual Studio.
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Minimalist Apple Footer -->
+  <footer class="apple-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-columns-grid">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--text-white); font-weight: 600; margin-bottom: 12px;">
+            <img src="assets/images/app-icon.svg" alt="MiEarbuddy Logo" width="20" height="20">
+            <span>MiEarbuddy</span>
+          </div>
+          <p style="font-size: 0.8125rem; max-width: 320px;" data-i18n="footerDesc">
+            A native, ultra-lightweight Windows desktop companion for Xiaomi and Redmi earbuds.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-head" data-i18n="footerNavTitle">Navigation</div>
+          <ul class="footer-col-links">
+            <li><a href="#overview" data-i18n="navOverview">Overview</a></li>
+            <li><a href="#showcase" data-i18n="navShowcase">Showcase</a></li>
+            <li><a href="#noise-control" data-i18n="navNoiseControl">Noise Control</a></li>
+            <li><a href="#battery" data-i18n="navBattery">Battery</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-head" data-i18n="footerProjectTitle">Project</div>
+          <ul class="footer-col-links">
+            <li><a href="https://github.com/Ghost-Faith/MiEarbuddy/releases/download/v1.0.0/MiEarbuddy.exe">Download (.exe)</a></li>
+            <li><a href="https://github.com/Ghost-Faith/MiEarbuddy/releases" target="_blank" rel="noopener noreferrer">Releases</a></li>
+            <li><a href="https://github.com/Ghost-Faith/MiEarbuddy" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://github.com/Ghost-Faith/MiEarbuddy/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-head" data-i18n="footerTechTitle">Architecture</div>
+          <ul class="footer-col-links">
+            <li><a href="#performance">Winsock RFCOMM</a></li>
+            <li><a href="#performance">E21 Cryptography</a></li>
+            <li><a href="#performance">Google FastPair</a></li>
+            <li><a href="#performance">Windows GDI+</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-legal-bar">
+        <div data-i18n="footerCopyright">&copy; 2026 MiEarbuddy. Open source under the MIT License.</div>
+        <div><span data-i18n="footerCreatedBy">Created by</span> <a href="https://github.com/Ghost-Faith" target="_blank" rel="noopener noreferrer" style="color: var(--text-white);">Ghost-Faith</a></div>
+      </div>
+
+      <div style="margin-top: 16px; line-height: 1.5;" data-i18n="footerLegal">
+        Xiaomi, Redmi, and HyperOS are registered trademarks of Xiaomi Inc. MiEarbuddy is an independent, community-developed open-source software project and is not affiliated with or endorsed by Xiaomi Inc.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="scripts/i18n.js"></script>
+  <script src="scripts/anc-simulator.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

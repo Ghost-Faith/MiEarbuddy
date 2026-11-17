@@ -1,0 +1,152 @@
+/* ==========================================================================
+   MiEarbuddy — Animations & Micro-Interactions
+   Apple-grade fluid timing, 60fps hardware accelerated transforms
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Scroll Reveal Animations
+   -------------------------------------------------------------------------- */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay helpers */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* Scale Reveal for visual hero & cards */
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.94) translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-scale.is-revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Ambient Lighting & Background Glow
+   -------------------------------------------------------------------------- */
+@keyframes ambientGlowPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+.ambient-pulse {
+  animation: ambientGlowPulse 8s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   Audio Soundwave Animations (For ANC Visualization)
+   -------------------------------------------------------------------------- */
+@keyframes soundWaveMove {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 200; }
+}
+
+@keyframes audioBarBounce {
+  0%, 100% { height: 6px; }
+  50% { height: 32px; }
+}
+
+.audio-equalizer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+}
+
+.audio-bar {
+  width: 3px;
+  background: var(--color-accent);
+  border-radius: 3px;
+  animation: audioBarBounce 1.2s ease-in-out infinite;
+}
+
+.audio-bar:nth-child(2) { animation-delay: 0.15s; }
+.audio-bar:nth-child(3) { animation-delay: 0.35s; }
+.audio-bar:nth-child(4) { animation-delay: 0.2s; }
+.audio-bar:nth-child(5) { animation-delay: 0.45s; }
+
+/* --------------------------------------------------------------------------
+   Interactive Ripple Feedback
+   -------------------------------------------------------------------------- */
+.ripple-fx {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-fx::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+.ripple-fx:active::after {
+  width: 200px;
+  height: 200px;
+  opacity: 1;
+  transition: 0s;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility: Prefers-Reduced-Motion Handling
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-on-scroll,
+  .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hero-floating-case,
+  .hero-telemetry-badge,
+  .ambient-pulse,
+  .audio-bar {
+    animation: none !important;
+  }
+}

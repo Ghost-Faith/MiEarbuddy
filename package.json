@@ -1,0 +1,14 @@
+{
+  "name": "miearbuddy-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Official presentation website for MiEarbuddy - Windows companion for Xiaomi and Redmi earbuds",
+  "scripts": {
+    "dev": "vite docs",
+    "build": "vite build docs --outDir dist",
+    "preview": "vite preview docs"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}
